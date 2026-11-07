@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}诊断档案{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h2><i class="fas fa-notes-medical"></i> 我的诊断档案</h2>
+    <p class="lead">查看、筛选与管理全部历史诊断记录</p>
+</div>
+
+<div class="card mb-5">
+    <div class="filter-bar">
+        <select id="severityFilter" class="form-select" style="width:auto;">
+            <option value="">全部严重程度</option>
+            <option value="healthy">健康</option>
+            <option value="mild">轻度</option>
+            <option value="moderate">中度</option>
+            <option value="severe">重度</option>
+        </select>
+        <select id="statusFilter" class="form-select" style="width:auto;">
+            <option value="">全部处理状态</option>
+            <option value="pending">待跟进</option>
+            <option value="treating">治疗中</option>
+            <option value="recovered">已恢复</option>
+        </select>
+        <input type="text" id="searchRecord" class="form-input" style="width:auto;flex:1;min-width:200px;" placeholder="按病害名称筛选...">
+        <button id="exportCsvBtn" class="btn btn-outline"><i class="fas fa-download"></i> 导出 CSV</button>
+    </div>
+</div>
+
+<div class="stat-panel mb-4" id="historyStats">
+    <div class="stat-cell"><div class="num" id="statTotal">0</div><div class="cap">全部记录</div></div>
+    <div class="stat-cell"><div class="num" id="statHealthy">0</div><div class="cap">健康</div></div>
+    <div class="stat-cell"><div class="num" id="statMild">0</div><div class="cap">轻度</div></div>
+    <div class="stat-cell"><div class="num" id="statModerate">0</div><div class="cap">中度</div></div>
+    <div class="stat-cell"><div class="num" id="statSevere">0</div><div class="cap">重度</div></div>
+    <div class="stat-cell"><div class="num" id="statRecovered">0</div><div class="cap">已恢复</div></div>
+</div>
+
+<div class="card mb-5">
+    <div class="flex-between mb-3">
+        <h3 class="card-title"><i class="fas fa-chart-line"></i> 诊断趋势（近 14 天）</h3>
+        <button id="trendRefreshBtn" class="btn btn-soft btn-sm"><i class="fas fa-sync-alt"></i> 刷新</button>
+    </div>
+    <div class="minor-chart"><canvas id="trendChart"></canvas></div>
+</div>
+
+<div class="table-wrap">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>病害</th>
+                <th>严重程度</th>
+                <th>处理状态</th>
+                <th>置信度</th>
+                <th>诊断时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="historyBody">
+            <tr><td colspan="6" class="text-center text-muted">加载中...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="historyPagination" class="pagination"></div>
+
+<div class="empty-state hidden" id="historyEmpty">
+    <div class="icon"><i class="fas fa-inbox"></i></div>
+    <p>没有符合条件的诊断记录</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/static/js/history.js"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}我的植物{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h2><i class="fas fa-seedling"></i> 我的植物</h2>
+    <p class="lead">管理你的植物档案，记录每株植物的种类与监护状态</p>
+</div>
+
+<div class="notice-bar">
+    <i class="fas fa-lightbulb"></i>
+    <span>养护备注与提醒保存在当前浏览器本地，用于帮您记录每株植物的浇水、施肥与光照习惯；点击「去诊断」可直接为该株植物发起病害识别。</span>
+</div>
+
+<div class="grid grid-2">
+    <div class="add-plant-card">
+        <h3 class="card-title">添加植物</h3>
+        <form id="addPlantForm" class="mt-3">
+            <div class="form-group">
+                <label class="form-label">植物名称<i class="req">*</i></label>
+                <input type="text" name="plant_name" class="form-input" placeholder="例如：番茄、多肉" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">植物类型</label>
+                <select name="plant_type" class="form-select">
+                    <option value="蔬菜">蔬菜</option>
+                    <option value="水果">水果</option>
+                    <option value="花卉">花卉</option>
+                    <option value="观叶">观叶</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> 添加植物</button>
+        </form>
+    </div>
+
+    <div>
+        <div class="flex-between mb-3">
+            <h3 class="card-title">已种植植物 <span id="plantCount" class="badge badge-brand">0</span></h3>
+            <button id="refreshPlantsBtn" class="btn btn-soft btn-sm"><i class="fas fa-sync-alt"></i> 刷新</button>
+        </div>
+        <div id="plantList" class="grid grid-3">
+            <div class="skeleton skeleton-block"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/plants.js"></script>
+{% endblock %}

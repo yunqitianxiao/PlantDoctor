@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}批量检测{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h2><i class="fas fa-images"></i> 批量检测</h2>
+    <p class="lead">一次上传多张叶片图片，系统逐一识别并汇总诊断结果</p>
+</div>
+
+<div class="batch-drop" id="batchDrop">
+    <div class="upload-icon"><i class="fas fa-folder-open"></i></div>
+    <p>点击或拖拽多张图片至此区域</p>
+    <p class="upload-hint">可一次选择多张 JPG / PNG，每张 ≤16MB</p>
+    <input type="file" id="batchInput" accept="image/jpeg,image/png" multiple class="sr-only">
+</div>
+
+<div id="batchProgress" class="card mt-4 hidden">
+    <div class="flex-between mb-2">
+        <span>检测进度</span>
+        <span id="batchProgressText">0 / 0</span>
+    </div>
+    <div class="progress"><div class="bar" id="batchProgressBar" style="width:0%"></div></div>
+    <div class="flex gap-3 mt-3">
+        <button id="exportBatchCsvBtn" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> 导出结果</button>
+        <button id="clearBatchBtn" class="btn btn-ghost btn-sm"><i class="fas fa-eraser"></i> 清空</button>
+    </div>
+</div>
+
+<div id="batchResults" class="batch-results mt-4"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/batch.js"></script>
+{% endblock %}

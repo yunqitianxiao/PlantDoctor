@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}植物百科{% endblock %}
+
+{% block content %}
+<div class="page-head flex-between flex-wrap gap-3">
+    <div>
+        <h2><i class="fas fa-book-open"></i> 植物百科与历史档案</h2>
+        <p class="lead">收录 {{ categories|length }} 类作物、38 种常见植物病害的专家知识库</p>
+    </div>
+    <div class="category-filter flex gap-2 flex-wrap" id="categoryFilter">
+        <span class="chip active" data-category="">全部</span>
+        {% for cat in categories %}
+        <span class="chip" data-category="{{ cat }}">{{ cat }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="kb-toolbar">
+    <div class="search-box">
+        <i class="fas fa-search icon"></i>
+        <input type="text" id="searchInput" class="form-input" placeholder="搜索病害名称或作物...">
+    </div>
+    <div class="flex gap-2">
+        <span class="badge badge-brand" id="resultCount">加载中...</span>
+        <button id="clearSearchBtn" class="btn btn-ghost btn-sm hidden"><i class="fas fa-times"></i> 清除</button>
+    </div>
+</div>
+
+<div class="kb-body">
+    <div>
+        <div id="diseaseList" class="grid grid-auto">
+            <div class="skeleton skeleton-block"></div>
+            <div class="skeleton skeleton-block"></div>
+            <div class="skeleton skeleton-block"></div>
+        </div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <div class="history-sidebar">
+        <h3 class="flex gap-2"><i class="fas fa-notes-medical"></i> 我的病历本</h3>
+        <div id="historyRecordsList" class="history-list"></div>
+        <div class="mt-3 flex gap-2">
+            <button id="refreshHistoryBtn" class="btn btn-soft btn-sm"><i class="fas fa-sync-alt"></i> 刷新</button>
+            <a href="/history" class="btn btn-outline btn-sm">全部档案</a>
+        </div>
+    </div>
+</div>
+
+<div id="diseaseModal" class="modal-backdrop" style="display:none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modalTitle">病害详情</h3>
+            <button class="modal-close" data-close>&times;</button>
+        </div>
+        <div class="detail-grid">
+            <div class="detail-item"><div class="k">症状</div><div id="modalSymptoms"></div></div>
+            <div class="detail-item"><div class="k">病因</div><div id="modalCauses"></div></div>
+            <div class="detail-item"><div class="k">治疗方案</div><div id="modalTreatment"></div></div>
+            <div class="detail-item"><div class="k">预防措施</div><div id="modalPrevention"></div></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" data-close>关闭</button>
+            <button class="btn btn-primary" id="modalDiagBtn"><i class="fas fa-microscope icon"></i> 去诊断</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/knowledge.js"></script>
+{% endblock %}

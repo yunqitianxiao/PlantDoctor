@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="植物医生 - 注册">
+    <title>植物医生 · 注册</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-page">
+    <i class="fas fa-leaf auth-bg-leaf float" style="top:12%;right:10%;"></i>
+
+    <div class="auth-card fade-in">
+        <div class="auth-logo">
+            <i class="fas fa-user-plus icon"></i>
+            <h1>注册账号</h1>
+            <p>创建植物医生账号，开始智能诊断</p>
+        </div>
+
+        <form method="POST" action="/register">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-user"></i> 用户名</label>
+                <input type="text" name="username" class="form-input" placeholder="用户名" required autofocus>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lock"></i> 密码</label>
+                <input type="password" name="password" class="form-input" placeholder="密码（至少 4 位）" minlength="4" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-lg">
+                <i class="fas fa-user-check"></i> 注册
+            </button>
+        </form>
+
+        <div class="auth-foot">
+            已有账号？ <a href="/login">返回登录</a>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-danger mt-4"><i class="fas fa-exclamation-circle icon"></i><div>{{ error }}</div></div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success mt-4"><i class="fas fa-check-circle icon"></i><div>{{ success }}</div></div>
+        {% endif %}
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}关于系统{% endblock %}
+
+{% block content %}
+<section class="hero fade-in">
+    <span class="badge badge-brand hero-badge"><i class="fas fa-leaf"></i> B/S 架构 · Flask 应用</span>
+    <h1>植物医生</h1>
+    <p>基于深度学习与大模型的植物病害智能诊断系统 —— 集图像分类、病斑分割、智能决策于一体，
+        帮助农户、园艺师与农业科技工作者足不出户完成叶片病害的诊断与防治指导。</p>
+    <div class="tech-stack">
+        <span class="chip"><i class="fab fa-python"></i> Flask</span>
+        <span class="chip"><i class="fas fa-brain"></i> PyTorch</span>
+        <span class="chip"><i class="fas fa-network-wired"></i> Mask2Former</span>
+        <span class="chip"><i class="fas fa-camera-retro"></i> EfficientNet-V2</span>
+        <span class="chip"><i class="fas fa-robot"></i> DeepSeek LLM</span>
+    </div>
+</section>
+
+<div class="stat-banner card fade-in">
+    <div class="text-center">
+        <div class="stat-value">96.7%</div>
+        <div class="stat-label text-muted">分类准确率</div>
+    </div>
+    <div class="text-center">
+        <div class="stat-value">38</div>
+        <div class="stat-label text-muted">病害类别</div>
+    </div>
+    <div class="text-center">
+        <div class="stat-value">≥0.75</div>
+        <div class="stat-label text-muted">分割 IoU</div>
+    </div>
+    <div class="text-center">
+        <div class="stat-value">115</div>
+        <div class="stat-label text-muted">分割细类</div>
+    </div>
+</div>
+
+<div class="mt-6">
+    <h3 class="section-title"><i class="fas fa-code-branch"></i> 系统架构</h3>
+    <div class="feature-grid">
+        <div class="card feature-card card-hover">
+            <div class="feature-icon"><i class="fas fa-tag"></i></div>
+            <h4>图像分类</h4>
+            <p class="text-muted">EfficientNet-V2_s 骨干，迁移学习 + 数据增强，识别 38 类常见植物病害。</p>
+        </div>
+        <div class="card feature-card card-hover">
+            <div class="feature-icon"><i class="fas fa-cut"></i></div>
+            <h4>病斑分割</h4>
+            <p class="text-muted">Mask2Former（Swin 骨干）语义分割，精准刻画病灶区域，叠加可视化。</p>
+        </div>
+        <div class="card feature-card card-hover">
+            <div class="feature-icon"><i class="fas fa-robot"></i></div>
+            <h4>大模型增强</h4>
+            <p class="text-muted">DeepSeek 大模型结合病害知识与严重程度，自动生成分级治疗方案。</p>
+        </div>
+    </div>
+</div>
+
+<div class="mt-6">
+    <h3 class="section-title"><i class="fas fa-cogs"></i> 主要功能</h3>
+    <div class="grid grid-3">
+        <div class="card card-hover"><h4><i class="fas fa-microscope"></i> 智能诊断</h4><p class="text-muted">上传叶片照片 → 分类 + 分割 + LLM 生成方案，一键保存病历。</p></div>
+        <div class="card card-hover"><h4><i class="fas fa-images"></i> 批量检测</h4><p class="text-muted">多图并发识别，便于批量巡检与数据整理，支持结果导出。</p></div>
+        <div class="card card-hover"><h4><i class="fas fa-book-open"></i> 植物百科</h4><p class="text-muted">38 类病害专家知识库：症状、病因、治疗、预防四维讲解。</p></div>
+        <div class="card card-hover"><h4><i class="fas fa-notes-medical"></i> 诊断档案</h4><p class="text-muted">历史病历管理，支持严重程度/状态筛选、恢复跟踪与 CSV 导出。</p></div>
+        <div class="card card-hover"><h4><i class="fas fa-seedling"></i> 我的植物</h4><p class="text-muted">植物档案管护，记录种类与监护状态。</p></div>
+        <div class="card card-hover"><h4><i class="fas fa-chart-line"></i> 数据看板</h4><p class="text-muted">诊断统计、严重度分布、植物类别分布可视化。</p></div>
+    </div>
+</div>
+
+<div class="mt-6">
+    <h3 class="section-title"><i class="fas fa-timeline"></i> 技术演进</h3>
+    <div class="timeline">
+        <div class="item">
+            <h4>图像分类模型</h4>
+            <p>采用 EfficientNet-V2-s 主干，通过迁移学习与数据增强在 PlantVillage 数据集上微调，覆盖 38 类常见植物病害。</p>
+        </div>
+        <div class="item">
+            <h4>病灶区域分割</h4>
+            <p>引入 Mask2Former（Swin 骨干）进行语义级分割，精确刻画病斑范围，结合病灶占比评估病害严重程度。</p>
+        </div>
+        <div class="item">
+            <h4>大模型智能决策</h4>
+            <p>接入 DeepSeek 大模型，将病害种类、严重程度与基础治疗知识联合输入，自动生成分级、可落地的防治方案。</p>
+        </div>
+        <div class="item">
+            <h4>前后端一体化应用</h4>
+            <p>以 Flask 蓝图分层架构构建 B/S 应用，提供诊断、档案、批量检测、知识百科与植物管理一体化的完整工作流。</p>
+        </div>
+    </div>
+</div>
+
+<div class="mt-6">
+    <h3 class="section-title"><i class="fas fa-question-circle"></i> 常见问题</h3>
+    <div class="accordion">
+        <div class="accordion-item open">
+            <div class="accordion-head">诊断结果准确吗？</div>
+            <div class="accordion-body"><p>分类模型在 PlantVillage 数据集上达 96.7% 准确率，但实际田间环境光照、角度差异可能影响识别，请结合专业判断使用。</p></div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-head">支持哪些图片格式？</div>
+            <div class="accordion-body"><p>支持 JPG / PNG，单张最大 16MB。建议上传清晰、叶片占主体、无强逆光的照片，可显著提升识别效果。</p></div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-head">治疗建议可以替代农业技术员吗？</div>
+            <div class="accordion-body"><p>不能。方案由大模型基于已有知识生成，仅供辅助参考；农药浓度、用法与安全间隔请务必遵循专业人员指导与产品说明。</p></div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-head">诊断记录保存在哪里？</div>
+            <div class="accordion-body"><p>诊断记录保存于系统数据库，可在「诊断档案」中按严重程度/处理状态筛选、跟踪恢复并导出 CSV 或打印报告。</p></div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-head">没有部署模型权重时如何使用？</div>
+            <div class="accordion-body"><p>系统内置演示模式：未放置权重时自动返回样例结果，所有页面、建档、导出流程均可正常走通，便于无 GPU 环境预览。</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-6">
+    <h3 class="card-title"><i class="fas fa-shield-halved"></i> 免责声明</h3>
+    <p class="text-muted mt-2">本项目提供的人工诊断结果仅供参考，涉及农药使用请务必咨询当地农业技术推广人员，
+        并严格按照产品说明与当地法规执行。</p>
+</div>
+{% endblock %}

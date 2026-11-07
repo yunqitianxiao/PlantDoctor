@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Runtime data
+instance/
+uploads/*
+!uploads/.gitkeep
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# Datasets and model weights (too large for Git)
+data/
+mask2former_local/
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# Generated documents that may embed local paths or secrets
+*.docx
+.~*
+提交材料/源代码_*
+基于深度学习与大模型的植物病害智能诊断系统*.docx
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}智能诊断{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h2><i class="fas fa-microscope"></i> AI 智能诊断</h2>
+    <p class="lead">上传植物叶片照片，系统自动识别病害种类、提取病斑区域，并给出分级治疗方案</p>
+</div>
+
+<div class="steps" id="diagSteps">
+    <div class="step active" data-step="1">
+        <span class="step-dot">1</span> 上传叶片照片
+    </div>
+    <div class="step-sep"></div>
+    <div class="step" data-step="2">
+        <span class="step-dot">2</span> 模型识别与分割
+    </div>
+    <div class="step-sep"></div>
+    <div class="step" data-step="3">
+        <span class="step-dot">3</span> 生成诊断方案
+    </div>
+</div>
+
+<div class="upload-area" id="uploadArea">
+    <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+    <p>点击或拖拽叶片图片至此区域</p>
+    <p class="upload-hint">支持 JPG / PNG，单张最大 16MB</p>
+    <input type="file" id="imageInput" accept="image/jpeg,image/png" class="sr-only">
+</div>
+
+<div id="loadingIndicator" class="loading-box hidden">
+    <div class="spinner"></div>
+    <p class="mt-3">AI 正在分析中，请稍候...</p>
+    <p class="text-tiny text-muted">分类 + 分割 + 大模型生成方案，约需数秒</p>
+</div>
+
+<div id="previewContainer" class="hidden">
+    <div class="dual-canvas">
+        <div class="canvas-box">
+            <h4><i class="fas fa-image"></i> 原图</h4>
+            <div class="preview-wrap">
+                <img id="originalPreview" class="preview-img" alt="原图">
+                <canvas id="overlayCanvas" class="mask-canvas" width="384" height="384"></canvas>
+            </div>
+        </div>
+        <div class="canvas-box">
+            <h4><i class="fas fa-chart-pie"></i> 病变区域遮罩</h4>
+            <div class="preview-wrap">
+                <img id="maskPreview" class="preview-img" alt="分割掩码">
+            </div>
+            <div class="slider-row">
+                <i class="fas fa-adjust"></i>
+                <input type="range" id="alphaSlider" min="0" max="100" value="50">
+                <span class="range-label" id="alphaValue">50%</span>
+            </div>
+            <div class="slider-row">
+                <input type="color" id="maskColor" value="#2e7d64" title="遮罩颜色">
+                <span class="text-small text-muted">遮罩颜色</span>
+            </div>
+            <label class="form-switch mt-3">
+                <input type="checkbox" id="toggleOverlay" checked>
+                <span class="track"></span>
+                <span class="text-small">显示病灶叠加</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div id="resultArea" class="hidden">
+    <div class="result-card">
+        <div class="result-header">
+            <div class="disease-name" id="diseaseName">—</div>
+            <span class="confidence" id="confidence">—</span>
+        </div>
+        <div class="symptom-tags" id="symptomTags"></div>
+
+        <div class="result-metrics">
+            <div class="metric">
+                <div class="metric-val" id="scoreValue">0</div>
+                <div class="metric-label">置信度</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val" id="severityValue">0%</div>
+                <div class="metric-label">病灶占比</div>
+            </div>
+            <div class="metric">
+                <div class="metric-val" id="statusValue">—</div>
+                <div class="metric-label">严重程度</div>
+            </div>
+        </div>
+
+        <div class="severity-bar">
+            <div class="flex-between mb-2">
+                <span class="text-small">病害严重程度</span>
+                <span class="badge badge-warn" id="severityLevelTag">待评估</span>
+            </div>
+            <div class="progress danger">
+                <div class="bar" id="severityFill" style="width:0%"></div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 align-center mt-4">
+            <div class="gauge" id="severityGauge">
+                <svg viewBox="0 0 96 96" width="96" height="96">
+                    <circle class="gauge-track" cx="48" cy="48" r="40"></circle>
+                    <circle class="gauge-arc" cx="48" cy="48" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3"></circle>
+                </svg>
+                <div class="gauge-num" id="gaugeNum">0%</div>
+            </div>
+            <div>
+                <div class="text-small text-muted">病害严重程度</div>
+                <div class="font-weight-600 text-lg" id="gaugeLevel">待评估</div>
+                <div class="text-tiny text-muted">按病灶占比估算的严重度参考</div>
+            </div>
+        </div>
+
+        <div id="reportPreview" class="report-preview hidden"></div>
+
+        <div class="treatment-box">
+            <h4><i class="fas fa-prescription-bottle"></i> 治疗方案（大模型增强）</h4>
+            <p id="treatmentText">正在生成，请稍候...</p>
+        </div>
+
+        <div class="action-buttons">
+            <button id="saveToHistoryBtn" class="btn btn-primary"><i class="fas fa-save icon"></i> 保存到病历本</button>
+            <button id="exportReportBtn" class="btn btn-soft"><i class="fas fa-file-export icon"></i> 导出报告</button>
+            <button id="printReportBtn" class="btn btn-soft"><i class="fas fa-print icon"></i> 打印报告</button>
+            <button id="newDiagnosisBtn" class="btn btn-outline"><i class="fas fa-redo icon"></i> 新诊断</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/diagnose.js"></script>
+{% endblock %}

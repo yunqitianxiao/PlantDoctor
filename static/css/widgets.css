@@ -1,0 +1,341 @@
+/* ============================================================
+   widgets.css — 通用组件库样式
+   选项卡 / 手风琴 / 工具提示 / 图片对比 / 严重度仪表 / 统计面板 / 时间线 / 打印报告
+   ============================================================ */
+
+/* ---------- 工具提示气泡 ---------- */
+.tooltip-box {
+  position: fixed;
+  z-index: 1200;
+  background: #22312c;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .15s ease, transform .15s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .18);
+}
+.tooltip-box.show { opacity: 1; transform: translateY(0); }
+[data-tip] { cursor: help; }
+
+/* ---------- 选项卡 ---------- */
+.tabbed { margin: 0; }
+.tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 2px solid var(--c-border, #eef2f0);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--c-text-muted, #5b6b66);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease;
+}
+.tab-btn:hover { color: var(--c-brand, #2e7d64); background: rgba(46, 125, 100, .08); }
+.tab-btn.active { color: var(--c-brand, #2e7d64); background: rgba(46, 125, 100, .12); }
+.tab-pane { display: none; animation: fadeIn .25s ease; }
+.tab-pane.active { display: block; }
+
+/* ---------- 手风琴 ---------- */
+.accordion { border: 1px solid var(--c-border, #eef2f0); border-radius: 10px; overflow: hidden; }
+.accordion-item + .accordion-item { border-top: 1px solid var(--c-border, #eef2f0); }
+.accordion-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--c-text, #1c2b27);
+  background: transparent;
+  transition: background .18s ease;
+}
+.accordion-head:hover { background: rgba(46, 125, 100, .05); }
+.accordion-head::after {
+  content: '\f078';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--c-text-muted, #5b6b66);
+  transition: transform .2s ease;
+}
+.accordion-item.open .accordion-head::after { transform: rotate(180deg); }
+.accordion-body { max-height: 0; overflow: hidden; transition: max-height .25s ease, padding .25s ease; padding: 0 16px; }
+.accordion-item.open .accordion-body { max-height: 600px; padding: 0 16px 14px; }
+.accordion-body p { margin: 6px 0; color: var(--c-text-muted, #5b6b66); font-size: 14px; }
+
+/* ---------- 图片对比滑块 ---------- */
+.cmp {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  user-select: none;
+  border: 1px solid var(--c-border, #eef2f0);
+}
+.cmp-wrap { position: relative; width: 100%; }
+.cmp-img-before { display: block; width: 100%; }
+.cmp-after {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+  border-right: 2px solid var(--c-brand, #2e7d64);
+}
+.cmp-after img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cmp-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--c-brand, #2e7d64);
+  z-index: 2;
+}
+.cmp-handle::after {
+  content: '\f337';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  color: #fff;
+  background: var(--c-brand, #2e7d64);
+  border-radius: 50%;
+  font-size: 13px;
+}
+.cmp-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 3;
+}
+
+/* ---------- 严重度圆环仪表 ---------- */
+.gauge {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  display: inline-block;
+}
+.gauge svg { transform: rotate(-90deg); }
+.gauge-track { fill: none; stroke: var(--c-border, #eef2f0); stroke-width: 10; }
+.gauge-arc {
+  fill: none;
+  stroke: var(--c-brand, #2e7d64);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset .6s ease;
+}
+.gauge-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--c-text, #1c2b27);
+}
+.gauge-label { margin-top: 4px; text-align: center; font-size: 12px; color: var(--c-text-muted, #5b6b66); }
+
+/* ---------- 统计面板 ---------- */
+.stat-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+.stat-cell {
+  text-align: center;
+  padding: 16px 12px;
+  background: var(--c-surface, #fff);
+  border: 1px solid var(--c-border, #eef2f0);
+  border-radius: 10px;
+}
+.stat-cell .num { font-size: 24px; font-weight: 700; color: var(--c-brand, #2e7d64); }
+.stat-cell .cap { font-size: 12px; color: var(--c-text-muted, #5b6b66); margin-top: 4px; }
+
+/* ---------- 时间线 ---------- */
+.timeline { position: relative; padding-left: 28px; margin: 12px 0; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--c-border, #eef2f0);
+}
+.timeline .item { position: relative; padding: 0 0 18px 12px; }
+.timeline .item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c-brand, #2e7d64);
+  box-shadow: 0 0 0 4px rgba(46, 125, 100, .15);
+}
+.timeline .item h4 { margin: 0 0 4px; font-size: 15px; color: var(--c-text, #1c2b27); }
+.timeline .item p { margin: 0; font-size: 13px; color: var(--c-text-muted, #5b6b66); }
+
+/* ---------- 报告卡（页面内预览） ---------- */
+.report-preview {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px dashed var(--c-border, #eef2f0);
+  border-radius: 10px;
+  background: var(--c-surface, #fff);
+}
+.report-preview img { max-width: 46%; border-radius: 8px; margin-right: 8px; }
+
+/* ---------- 空状态 / 说明条 ---------- */
+.notice-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(46, 125, 100, .08);
+  color: var(--c-text, #1c2b27);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.notice-bar i { color: var(--c-brand, #2e7d64); }
+
+/* ---------- 命令面板（Command Palette） ---------- */
+.palette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+  background: rgba(10, 16, 14, .45);
+  backdrop-filter: blur(3px);
+}
+.palette-overlay[hidden] { display: none; }
+.palette {
+  width: min(560px, 92vw);
+  background: var(--c-surface, #fff);
+  border: 1px solid var(--c-border, #eef2f0);
+  border-radius: 14px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+  overflow: hidden;
+}
+.palette-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--c-border, #eef2f0);
+}
+.palette-search i { color: var(--c-text-muted, #5b6b66); }
+.palette-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: var(--c-text, #1c2b27);
+}
+.palette-kbd { font-size: 11px; color: var(--c-text-muted, #5b6b66); }
+.palette-list {
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 8px;
+}
+.palette-group {
+  padding: 8px 12px 4px;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted, #5b6b66);
+}
+.palette-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--c-text, #1c2b27);
+}
+.palette-item i { width: 18px; text-align: center; color: var(--c-text-muted, #5b6b66); }
+.palette-item.active,
+.palette-item:hover { background: rgba(46, 125, 100, .1); }
+.palette-item.active i,
+.palette-item:hover i { color: var(--c-brand, #2e7d64); }
+.palette-item .palette-label { flex: 1; }
+.palette-item .palette-arrow { opacity: 0; color: var(--c-brand, #2e7d64); }
+.palette-item.active .palette-arrow,
+.palette-item:hover .palette-arrow { opacity: 1; }
+.palette-empty { padding: 22px; text-align: center; color: var(--c-text-muted, #5b6b66); font-size: 13px; }
+.palette-footer {
+  display: flex;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--c-border, #eef2f0);
+  font-size: 12px;
+  color: var(--c-text-muted, #5b6b66);
+}
+.palette-footer kbd {
+  display: inline-block;
+  min-width: 18px;
+  text-align: center;
+  padding: 1px 4px;
+  margin: 0 2px;
+  border-radius: 4px;
+  border: 1px solid var(--c-border, #eef2f0);
+  background: var(--c-surface-2, #f4f7f6);
+  font-family: inherit;
+}
+@media (max-width: 640px) {
+  .palette-overlay { padding-top: 8vh; }
+  .palette-footer { flex-wrap: wrap; }
+}
+
+/* ---------- 通用 kbd 键帽 ---------- */
+kbd.footer-kbd {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 4px;
+  border: 1px solid var(--c-border, #eef2f0);
+  background: var(--c-surface-2, #f4f7f6);
+  font-family: inherit;
+  font-size: 11px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 640px) {
+  .tab-nav { flex-wrap: nowrap; overflow-x: auto; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
+  .cmp { width: 100%; }
+  .stat-panel { grid-template-columns: repeat(2, 1fr); }
+}
